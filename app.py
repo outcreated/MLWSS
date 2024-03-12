@@ -1,33 +1,33 @@
-import os
-from prompt_toolkit import PromptSession
-from prompt_toolkit.patch_stdout import patch_stdout
-from system import command_executor
-
 import threading
 import time
 import random
+import os
+import sys
+import config
 
-alphabet = "1234567890-=!@#$%^&*_+qwertyuiopasdfghjklzxcvbnm?~"
+from colorama import Fore
+from colorama import init as colorama_init
+from prompt_toolkit import PromptSession
+from prompt_toolkit.patch_stdout import patch_stdout
+from system import command_executor
+from neverapi import core
+from neverapi.core import LogLevel
+from neverapi.core import Logger as nlog
 
 
-def print_messages():
-    """Функция для демонстрации вывода системных сообщений."""
-    for i in range(100000):
-        time.sleep(2)
-        message = f""
-        for i in range(0, 32):
-            message += alphabet[random.randint(1, len(alphabet)-1)]
-        print(f"Системное сообщение:\t\t{message}")
+def onEnable() -> None:
+    config.SESSION_UUID = core.generateSessionUUID()
+    nlog.log(LogLevel.INFO, f"Запуск NEVER SYSTEM | Версия: {config.VERSION} | UUID Сессии: {config.SESSION_UUID}")
 
 if __name__ == "__main__":
-    os.system("clear")
+    os.system("cls" if sys.platform == 'nt' else "clear")
     session = PromptSession()
-    threading.Thread(target=print_messages, daemon=True).start()
-    with patch_stdout():
+    threading.Thread(target=onEnable, daemon=True).start()
+    with patch_stdout(raw=True):
         while True:
             try:
-                text = session.prompt(f">>> ")
-                #print(f"Вы ввели: {text}")
+                text = session.prompt(f" => ")
+                #print(f"Вы ввели: {text}")+
                 match text:
                     case "/stop":
                         break
