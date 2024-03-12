@@ -20,13 +20,13 @@ def onEnable() -> None:
     nlog.log("info", f"Запуск NEVER SYSTEM | Версия: {config.VERSION} | UUID Сессии: {config.MAIN_SESSION_UUID}")
 
 if __name__ == "__main__":
-    os.system("cls" if sys.platform == 'nt' else "clear")
+    os.system('cls' if os.name=='nt' else 'clear')
     session = PromptSession()
     threading.Thread(target=onEnable, daemon=True).start()
     with patch_stdout(raw=True):
         while True:
             try:
-                text = session.prompt(f" => ")
+                text = session.prompt(f"CMD > ")
                 #print(f"Вы ввели: {text}")+
                 match text:
                     case "/stop":
@@ -34,6 +34,6 @@ if __name__ == "__main__":
                     case "/restart":
                         pass
                     case _: 
-                        print(command_executor.execute(text))
+                        command_executor.execute(text)
             except KeyboardInterrupt:
                 break
