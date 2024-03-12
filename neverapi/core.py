@@ -7,11 +7,11 @@ def getTimeStamp() -> str:
     return dt.now().strftime('%H:%M:%S')
 
 def generateSessionUUID() -> str:
-    alphabet = '1234567890qwertyuiopasdfghjklzxcvbnm'
+    alphabet = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM'
     uuid = ''
 
-    for i in range(0, len(alphabet)):
-        if i % 8: 
+    for i in range(0, 32):
+        if i % 8 == 0 and i != 0: 
             uuid += '-' 
             continue
 
@@ -19,29 +19,21 @@ def generateSessionUUID() -> str:
     
     return uuid
 
-class LogLevel(enum.Enum):
-    INFO: 10
-    WARN: 20
-    ERROR: 30
-    FATAL: 40
-    DEBUG: 50
-
-
 class Logger():
-    def log(level: LogLevel, text: str) -> None:
+    def log(level: str, text: str) -> None:
         """
         param: level -> (`INFO`, `WARN`, `ERROR`, `FATAL`, `DEBUG`);
         param: text -> Any text
         """
-        match level:
-            case LogLevel.INFO:
+        match level.upper():
+            case "INFO":
                 print(f"{clr.RESET}[{clr.YELLOW}{getTimeStamp()}{clr.RESET}] [{clr.CYAN}INFO{clr.RESET}] {text}{clr.RESET}")
-            case LogLevel.WARN:
+            case "WARN":
                 print(f"{clr.RESET}[{clr.YELLOW}{getTimeStamp()}{clr.RESET}] [{clr.YELLOW}WARNING{clr.RESET}] {text}{clr.RESET}")
-            case LogLevel.ERROR:
+            case "ERROR":
                 print(f"{clr.RESET}[{clr.YELLOW}{getTimeStamp()}{clr.RESET}] [{clr.RED}ERROR{clr.RESET}] {text}{clr.RESET}")
-            case LogLevel.FATAL:
+            case "FATAL":
                 print(f"{clr.RESET}[{clr.YELLOW}{getTimeStamp()}{clr.RESET}] [{clr.MAGENTA}FATAL{clr.RESET}] {text}{clr.RESET}")
-            case LogLevel.DEBUG:
+            case "DEBUG":
                 print(f"{clr.RESET}[{clr.YELLOW}{getTimeStamp()}{clr.RESET}] [{clr.GREEN}DEBUG{clr.RESET}] {text}{clr.RESET}")
         

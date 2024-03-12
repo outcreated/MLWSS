@@ -5,19 +5,19 @@ import os
 import sys
 import config
 
+
 from colorama import Fore
 from colorama import init as colorama_init
 from prompt_toolkit import PromptSession
 from prompt_toolkit.patch_stdout import patch_stdout
 from system import command_executor
 from neverapi import core
-from neverapi.core import LogLevel
 from neverapi.core import Logger as nlog
 
 
 def onEnable() -> None:
-    config.SESSION_UUID = core.generateSessionUUID()
-    nlog.log(LogLevel.INFO, f"Запуск NEVER SYSTEM | Версия: {config.VERSION} | UUID Сессии: {config.SESSION_UUID}")
+    config.MAIN_SESSION_UUID = core.generateSessionUUID()
+    nlog.log("info", f"Запуск NEVER SYSTEM | Версия: {config.VERSION} | UUID Сессии: {config.MAIN_SESSION_UUID}")
 
 if __name__ == "__main__":
     os.system("cls" if sys.platform == 'nt' else "clear")
